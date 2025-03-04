@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background-color: #f1f3f6; }
+
+        .header {
+            background: #2874f0;
+            padding: 15px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .header .btn-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .back-btn { background:rgb(5, 34, 82); }
+        .back-btn:hover { background: #d32f2f; }
+
+        .profile-btn { background: rgb(12, 42, 177); }
+        .profile-btn:hover { background: rgb(41, 57, 204); }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 { text-align: center; color: #2874f0; }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+
+        .cart-item .info {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .cart-item h3 { font-size: 16px; margin-bottom: 5px; }
+
+        .cart-item p {
+            font-size: 14px;
+            color: #388e3c;
+            font-weight: bold;
+        }
+
+        .remove-btn { background: rgb(231, 69, 20); }
+        .remove-btn:hover { background: rgb(236, 27, 27); }
+
+        .buy-btn {
+            background: rgb(22, 109, 238);
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .buy-btn:hover { background: rgb(7, 59, 155); }
+
+        .total-price {
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        /* Address Section */
+        .address-container {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .address-container select, .add-address-btn {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .add-address-btn {
+            background: rgb(0, 150, 136);
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .add-address-btn:hover {
+            background: rgb(0, 123, 107);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>TrendyKart</h1>
+        <div class="btn-container">
+            <a href="{% url 'home' %}" class="btn back-btn">Back</a>
+            <a href="{% url 'profile' %}" class="btn profile-btn">Profile</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Your Cart</h2>
+
+        {% if cart_items %}
+            {% for item in cart_items %}
+            <div class="cart-item">
+                <img src="{{ item.product.product_img.url|default:'/static/default_product.jpg' }}" alt="{{ item.product.product_name }}">
+                <div class="info">
+                    <h3>{{ item.product.product_name }}</h3>
+                    <p>₹{{ item.product.price }} x {{ item.quantity }}</p>
+                </div>
+                <a href="{% url 'remove_from_cart' item.id %}" class="btn remove-btn">Remove</a>
+            </div>
+            {% endfor %}
+
+            <p class="total-price">Total Price: ₹{{ total_price }}</p>
+
+            <!-- Address Selection -->
+            <div class="address-container">
+                <h3>Select Delivery Address</h3>
+                {% if user_addresses %}
+                    <form method="POST" action="{% url 'buy_now' %}">
+                        {% csrf_token %}
+                        <select name="selected_address">
+                            {% for add in user_addresses %}
+                                <option value="{{ add.id }}">{{ add.city }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn buy-btn">Buy Now (COD)</button>
+                    </form>
+                {% else %}
+                    <p>No saved addresses found.</p>
+                    <a href="{% url 'add' %}" class="add-address-btn">Add Address</a>
+                {% endif %}
+            </div>
+
+        {% else %}
+            <p style="text-align:center; font-size:18px;">Your cart is empty!</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

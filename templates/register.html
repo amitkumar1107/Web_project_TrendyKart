@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | E-Commerce</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f1f3f6;
+            padding: 10px;
+        }
+        .register-container {
+            display: flex;
+            width: 800px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .left-section {
+            width: 40%;
+            background: #2874f0;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .left-section h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        .left-section p {
+            font-size: 14px;
+        }
+        .right-section {
+            width: 60%;
+            padding: 30px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #fb641b;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #e05317;
+        }
+        p {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        p a {
+            color: #2874f0;
+            text-decoration: none;
+        }
+        p a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .register-container {
+                flex-direction: column;
+                width: 90%;
+            }
+            .left-section {
+                width: 100%;
+                padding: 20px;
+            }
+            .right-section {
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="left-section">
+            <h2>Looks like you're new here!</h2>
+            <p>Sign up to get started with amazing deals and offers.</p>
+        </div>
+        <div class="right-section">
+            <h2>Register</h2>
+            <form method="POST">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div style="color: red; font-size: 12px;">{{ field.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                
+                <button type="submit">Register</button>
+                <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

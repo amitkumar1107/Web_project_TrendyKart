@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Addresses</title>
+</head>
+<body>
+    <h1>Your Saved Addresses</h1>
+    
+    {% if address %}
+        <ul>
+            {% for addr in address %}
+                <li>
+                    <strong>{{ addr.full_name }}</strong><br>
+                    {{ addr.street }}, {{ addr.city }}, {{ addr.state }} - {{ addr.pincode }}<br>
+                    <small>Phone: {{ addr.phone }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No addresses found.</p>
+    {% endif %}
+</body>
+</html>

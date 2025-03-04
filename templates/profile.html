@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - E-commerce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md py-4 px-6 flex justify-between items-center">
+        <a href="{% url 'home' %}" class="text-xl font-semibold text-blue-600">E-Commerce</a>
+        
+        <div class="flex space-x-4">
+            <a href="{% url 'cart' %}" class="relative">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg">Cart</button>
+            </a>
+            {% if user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="text-red-600 font-semibold">Log Out</button>
+                </form>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Profile Container -->
+    <div class="max-w-5xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
+        <!-- User Info -->
+        <div class="flex items-center space-x-6 border-b pb-4">
+            <img src="https://via.placeholder.com/100" alt="{{ users.username }} Image" class="w-24 h-24 rounded-full">
+            <div>
+                <h2 class="text-2xl font-semibold">{{ users.username }}</h2>
+                <p class="text-gray-600">{{ users.email }}</p>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="mt-6">
+            <nav class="flex space-x-6 border-b pb-3">
+                <button class="tab-link active text-blue-600 font-semibold" onclick="showTab('orders')">Orders</button>
+                <button class="tab-link text-gray-600" onclick="showTab('wishlist')">Wishlist</button>
+                <button class="tab-link text-gray-600" onclick="showTab('addresses')">Addresses</button>
+                <a href="{% url 'add' %}" class="add-address-btn">Add New Address</a>
+            </nav>
+        </div>
+
+        <!-- Orders Section -->
+        <div id="orders" class="tab-content mt-6">
+            <h3 class="text-lg font-semibold mb-3">My Orders</h3>
+            {% if orders %}
+                {% for order in orders %}
+                <div class="border p-3 rounded-md shadow-sm mb-3">
+                    <p class="font-semibold">Order #{{ order.id }}</p>
+                    <p class="text-sm text-gray-600">{{ order.status }} - {{ order.order_date }}</p>
+                    <button class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">View Details</button>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-gray-600">No orders found.</p>
+            {% endif %}
+        </div>
+
+        <!-- Wishlist Section -->
+        <div id="wishlist" class="tab-content mt-6 hidden">
+            <h3 class="text-lg font-semibold mb-3">My Wishlist</h3>
+            <p class="text-gray-600">Your wishlist is empty.</p>
+        </div>
+
+        <!-- Addresses Section -->
+        <div id="addresses" class="tab-content mt-6 hidden">
+            <h3 class="text-lg font-semibold mb-3">My Addresses</h3>
+            {% if addresses %}
+                {% for address in addresses %}
+                <div class="border p-3 rounded-md shadow-sm mb-3">
+                    <p><strong>Name:</strong> {{ address.name }}</p>
+                    <p><strong>Locality:</strong> {{ address.locality }}</p>
+                    <p><strong>City:</strong> {{ address.city }}</p>
+                    <p><strong>State:</strong> {{ address.state }}</p>
+                    <p><strong>Zip Code:</strong> {{ address.zipcode }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-gray-600">No address found. <a href="{% url 'add' %}" class="text-blue-600">Add an address</a></p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- JavaScript for Tabs -->
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            document.getElementById(tabName).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-link').forEach(link => {
+                link.classList.remove('text-blue-600', 'font-semibold');
+                link.classList.add('text-gray-600');
+            });
+            event.target.classList.add('text-blue-600', 'font-semibold');
+        }
+    </script>
+
+</body>
+</html>
