@@ -27,9 +27,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2vz^hza71o%mhk851mute0itu)^(uo84g9b$1jf!r=4cf&t2=d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DEBUG = True
 
-ALLOWED_HOSTS = ['TrendyKart.onrender.com', 'localhost']
+
+ALLOWED_HOSTS = ["web-project-trendykart-2.onrender.com"]
+
 
 
 # Application definition
@@ -80,10 +82,7 @@ WSGI_APPLICATION = 'ecom.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
-        conn_max_age=600,  # Performance optimization
-    )
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
 
 # Password validation
