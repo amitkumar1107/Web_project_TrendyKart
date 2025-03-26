@@ -17,18 +17,12 @@
             align-items: center;
         }
 
-        .header h1 {
-            font-size: 20px;
-            margin: 0;
-        }
+        .header h1 { font-size: 22px; }
 
-        .header .btn-container {
-            display: flex;
-            gap: 10px;
-        }
+        .btn-container { display: flex; gap: 10px; }
 
         .btn {
-            padding: 8px 12px;
+            padding: 10px 15px;
             border: none;
             color: white;
             border-radius: 5px;
@@ -40,11 +34,11 @@
             display: inline-block;
         }
 
-        .back-btn { background:rgb(5, 34, 82); }
-        .back-btn:hover { background: #d32f2f; }
+        .back-btn { background: #0d45a0; }
+        .back-btn:hover { background: #0b3a8c; }
 
-        .profile-btn { background: rgb(12, 42, 177); }
-        .profile-btn:hover { background: rgb(41, 57, 204); }
+        .profile-btn { background: #0c2ab1; }
+        .profile-btn:hover { background: #2939cc; }
 
         .container {
             max-width: 800px;
@@ -61,7 +55,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px;
+            padding: 15px;
             border-bottom: 1px solid #ddd;
         }
 
@@ -72,10 +66,7 @@
             border-radius: 5px;
         }
 
-        .cart-item .info {
-            flex: 1;
-            margin-left: 15px;
-        }
+        .cart-item .info { flex: 1; margin-left: 15px; }
 
         .cart-item h3 { font-size: 16px; margin-bottom: 5px; }
 
@@ -85,17 +76,26 @@
             font-weight: bold;
         }
 
-        .remove-btn { background: rgb(231, 69, 20); }
-        .remove-btn:hover { background: rgb(236, 27, 27); }
+        .remove-btn { background: #e74514; }
+        .remove-btn:hover { background: #dc281b; }
 
-        .buy-btn {
-            background: rgb(22, 109, 238);
+        .buy-now {
+            background: #166dee;
+            padding: 10px 15px;
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
             display: block;
+            width: 100%;
             text-align: center;
             margin-top: 20px;
+            transition: 0.3s;
         }
 
-        .buy-btn:hover { background: rgb(7, 59, 155); }
+        .buy-now:hover { background: #073b9b; }
 
         .total-price {
             text-align: right;
@@ -104,7 +104,6 @@
             margin-top: 15px;
         }
 
-        /* Address Section */
         .address-container {
             margin-top: 20px;
             padding: 15px;
@@ -122,7 +121,7 @@
         }
 
         .add-address-btn {
-            background: rgb(0, 150, 136);
+            background: #009688;
             color: white;
             font-weight: bold;
             text-decoration: none;
@@ -132,14 +131,26 @@
             cursor: pointer;
         }
 
-        .add-address-btn:hover {
-            background: rgb(0, 123, 107);
-        }
+        .add-address-btn:hover { background: #007b6b; }
     </style>
+    <script>
+        function buyNow() {
+            fetch("{% url 'buynow' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({})
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = "{% url 'home' %}";
+                }
+            });
+        }
+    </script>
 </head>
 <body>
-
-    <!-- HEADER -->
     <div class="header">
         <h1>TrendyKart</h1>
         <div class="btn-container">
@@ -150,7 +161,6 @@
 
     <div class="container">
         <h2>Your Cart</h2>
-
         {% if cart_items %}
             {% for item in cart_items %}
             <div class="cart-item">
@@ -165,29 +175,24 @@
 
             <p class="total-price">Total Price: ₹{{ total_price }}</p>
 
-            <!-- Address Selection -->
             <div class="address-container">
                 <h3>Select Delivery Address</h3>
                 {% if user_addresses %}
-                    <form method="POST" action="{% url 'buy_now' %}">
-                        {% csrf_token %}
-                        <select name="selected_address">
-                            {% for add in user_addresses %}
-                                <option value="{{ add.id }}">{{ add.city }}</option>
-                            {% endfor %}
-                        </select>
-                        <button type="submit" class="btn buy-btn">Buy Now (COD)</button>
-                    </form>
+                    {% csrf_token %}
+                    <select name="selected_address">
+                        {% for add in user_addresses %}
+                            <option value="{{ add.id }}">{{ add.city }}</option>
+                        {% endfor %}
+                    </select>
+                    <button class="buy-now" onclick="buyNow()">Buy Now</button>
                 {% else %}
                     <p>No saved addresses found.</p>
                     <a href="{% url 'add' %}" class="add-address-btn">Add Address</a>
                 {% endif %}
             </div>
-
         {% else %}
             <p style="text-align:center; font-size:18px;">Your cart is empty!</p>
         {% endif %}
     </div>
-
 </body>
 </html>

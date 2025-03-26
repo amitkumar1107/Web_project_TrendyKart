@@ -17,7 +17,7 @@ class customeregistrationform(UserCreationForm):
 
 
 class loginform(AuthenticationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={"autofocus": True, 'class': "form-control"}))
+    username = forms.CharField( widget=forms.TextInput(attrs={"autofocus": True, 'class': "form-control"}))
     password = forms.CharField(
         label=_("Password"),
         strip=False,

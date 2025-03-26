@@ -3,7 +3,7 @@ from django.contrib.auth.models  import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login,logout
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Product,customer,Cart,Order,OrderItem
+from .models import Product,customer,Cart,Order,OrderItem,profile,orderplaced
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from .forms import customeregistrationform,CustomerAddressForm
@@ -43,11 +43,12 @@ class ProfileView(LoginRequiredMixin, View):
         users = request.user 
         address=customer.objects.filter(user=users)
         order = Product.objects.filter(user=users) if hasattr(Product, 'user') else None
-        
+        user_pic=customer.objects.filter(user=users)
         return render(request, 'profile.html', {
             'users': users, 
             'orders': order,  # Fix variable name (was order)
-            'addresses': address  # Now correctly passing addresses
+            'addresses': address,
+            'user_pic':user_pic  # Now correctly passing addresses
         })
 
                       
@@ -116,26 +117,44 @@ def remove_from_cart(request, cart_id):
     return redirect('cart')
 
 
-def buy_now(request):
-    cart_items = Cart.objects.filter(user=request.user)
+def buy_now(request, id):
+    product_obj = Product.objects.get(id=id)
+    
+    if not request.user.is_authenticated:
+        messages.error(request, "Please log in to place an order!")
+        return redirect('login')
 
-    if not cart_items:
-        messages.error(request, "Your cart is empty!")
-        return redirect('cart')
+    # Get Customer Profile
+    try:
+        customer = customer.objects.get(user=request.user)
+    except customer.DoesNotExist:
+        messages.error(request, "Please complete your profile before ordering!")
+        return redirect('profile')
 
-    total_price = sum(item.product.price * item.quantity for item in cart_items)
-
-    # ✅ Create an order
-    order = Order.objects.create(user=request.user, total_price=total_price)
-
-    # ✅ Add items to the order
-    for item in cart_items:
-        OrderItem.objects.create(order=order, product=item.product, quantity=item.quantity)
-
-    # ✅ Clear the cart after purchase
-    cart_items.delete()
+    # ✅ Create and Save Order
+    order =orderplaced.objects.create(
+        user=request.user,
+        customer=customer,
+        product=product_obj,
+        quantity=1
+    )
 
     messages.success(request, "Order placed successfully!")
-    return redirect('order_success') 
+    return redirect('order_success')  # Redirect to order success page
 def order_success(request):
     return render(request, 'order_success.html')
+
+class profile_update(View):
+    def get(self,request):
+        if request =='POST':
+            user_name=User.objects.filter
+
+
+# class orderpleasd(View):
+#     def get(request ,id):
+#         product_obj = Product.objects.get(id=id)
+#         user=request.user
+#         orderr=orderpleasd(request.POST)
+#         if orderr.is_valid():
+#             orderr.save()
+        

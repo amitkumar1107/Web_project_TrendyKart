@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import (customer,Product,Cart,orderplaced)
+from .models import (customer,Product,Cart,orderplaced,profile)
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
@@ -30,3 +30,7 @@ class CustomUserAdmin(BaseUserAdmin):
     search_fields = ['username', 'email']
     list_filter = ['is_staff', 'is_superuser', 'is_active']
     ordering = ['username']
+
+@admin.register(profile)
+class profileadmin(admin.ModelAdmin):
+    list_display=['photo']

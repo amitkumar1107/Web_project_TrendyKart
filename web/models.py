@@ -71,3 +71,7 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} x {self.product.product_name} (Order {self.order.id})"
+    
+class profile(models.Model):
+    name_update=models.CharField(max_length=50)
+    photo=models.ImageField(upload_to='productimg')

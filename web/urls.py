@@ -21,7 +21,8 @@ urlpatterns = [
    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
    path('cart/add/<int:product_id>/', add_to_cart, name='add_to_cart'),
    path('cart/remove/<int:cart_id>/', remove_from_cart, name='remove_from_cart'),
-   path('cart/buy/', buy_now, name='buy_now'),
+   path('cart/buy/<int:id>/', buy_now, name='buy_now'),
    path('order-success/', views.order_success, name='order_success'),
+   path('buynow/',views.order_success,name="buynow")
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

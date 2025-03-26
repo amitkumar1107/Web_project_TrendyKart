@@ -5,32 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Placed Successfully</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 flex justify-center items-center h-screen">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.0.5"></script>
+    <style>
+        /* Full-screen layout */
+        .full-screen {
+            height: 100vh;
+            width: 100vw;
+        }
 
-    <div class="bg-white max-w-lg mx-auto p-6 rounded-lg shadow-lg text-center">
-        <!-- Success Icon -->
+        /* Background Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 1s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-blue-100 flex justify-center items-center full-screen">
+
+    <div class="bg-white w-full h-full flex flex-col justify-center items-center text-center shadow-lg">
+        <!-- ✅ Success Icon with Animation -->
         <div class="flex justify-center">
-            <img src="https://img.icons8.com/ios-filled/100/4CAF50/ok.png" alt="Success Icon" class="w-20">
+            <img src="https://img.icons8.com/ios-filled/150/1E3A8A/ok.png" alt="Success Icon" class="w-32 animate-bounce">
         </div>
         
-        <!-- Success Message -->
-        <h2 class="text-2xl font-semibold text-green-600 mt-4">Order Placed Successfully!</h2>
-        <p class="text-gray-700 mt-2">Thank you for shopping with us. Your order has been confirmed.</p>
+        <!-- ✅ Success Message -->
+        <h2 class="text-5xl font-bold text-blue-700 mt-6 animate-fadeIn">Order Placed Successfully! 🎉</h2>
+        <p class="text-2xl text-gray-700 mt-3 animate-fadeIn">Thank you for shopping with us. Your order has been confirmed.</p>
 
-        <!-- Order Summary -->
-         <div class="mt-4 bg-gray-50 p-4 rounded-lg">
-            {% comment %} <p class="text-gray-600"><strong>Order ID:</strong> #{{ order.id }}</p>
-            <p class="text-gray-600"><strong>Total Amount:</strong> ₹{{ total_price }}</p> {% endcomment %}
-            <p class="text-gray-600"><strong>Estimated Delivery:</strong> 3-5 business days</p>
-        </div> 
-
-        <!-- Action Buttons -->
-        <div class="mt-6 flex justify-center space-x-4">
-            {% comment %} <a href="{% url 'orders' %}" class="bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700">View Orders</a> {% endcomment %}
-            <a href="{% url 'home' %}" class="bg-gray-600 text-white px-5 py-2 rounded-lg shadow hover:bg-gray-700">Go to Home</a>
+        <!-- ✅ Action Button (Go to Home) -->
+        <div class="mt-8">
+            <a href="{% url 'home' %}" class="bg-blue-600 text-white px-10 py-4 text-2xl rounded-lg shadow-lg hover:bg-blue-700 transition transform hover:scale-110">
+                Go to Home
+            </a>
         </div>
     </div>
+
+    <!-- ✅ Confetti Animation -->
+    <script>
+        $(document).ready(function(){
+            confetti({
+                particleCount: 300,
+                spread: 120,
+                origin: { y: 0.6 }
+            });
+        });
+    </script>
 
 </body>
 </html>
