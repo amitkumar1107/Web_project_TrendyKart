@@ -1,4 +1,5 @@
 asgiref==3.8.1
+dj-database-url==2.3.0
 djando==0.2
 Django==5.1.7
 gunicorn==23.0.0
