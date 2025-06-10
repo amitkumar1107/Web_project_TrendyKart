@@ -30,7 +30,8 @@ SECRET_KEY = 'django-insecure-2vz^hza71o%mhk851mute0itu)^(uo84g9b$1jf!r=4cf&t2=d
 DEBUG = True
 
 
-ALLOWED_HOSTS = ["web-project-trendykart-2.onrender.com"]
+ALLOWED_HOSTS = ['trendy-kart.up.railway.app', 'www.trendy-kart.up.railway.app']
+
 
 
 
