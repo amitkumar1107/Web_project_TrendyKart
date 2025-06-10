@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - E-commerce</title>
+    <title>My Profile - TrendyKart</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
 
     <!-- Navbar -->
     <nav class="bg-white shadow-md py-4 px-6 flex justify-between items-center">
-        <a href="{% url 'home' %}" class="text-xl font-semibold text-blue-600">E-Commerce</a>
+        <a href="{% url 'home' %}" class="text-xl font-semibold text-blue-600">TrendyKart</a>
         
         <div class="flex space-x-4">
             <a href="{% url 'cart' %}" class="relative">
@@ -29,7 +29,12 @@
     <div class="max-w-5xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
         <!-- User Info -->
         <div class="flex items-center space-x-6 border-b pb-4">
-            <img src="User.user_pic" alt="{{ users.username }} Image" class="w-24 h-24 rounded-full">
+            <!-- Round Profile Picture -->
+            {% if user_pic and user_pic.photo %}
+                <img src="{{ user_pic.photo.url }}" alt="{{ users.username }}" class="w-24 h-24 rounded-full">
+            {% else %}
+                <img src="/media/productimg/2.png" alt="Default Profile" class="w-24 h-24 rounded-full">
+            {% endif %}
             <div>
                 <h2 class="text-2xl font-semibold">{{ users.username }}</h2>
                 <p class="text-gray-600">{{ users.email }}</p>
@@ -39,9 +44,9 @@
         <!-- Tabs -->
         <div class="mt-6">
             <nav class="flex space-x-6 border-b pb-3">
-                <button class="tab-link active text-blue-600 font-semibold" onclick="showTab('orders')">Orders</button>
-                <button class="tab-link text-gray-600" onclick="showTab('wishlist')">Wishlist</button>
-                <button class="tab-link text-gray-600" onclick="showTab('addresses')">Addresses</button>
+                <button class="tab-link active text-blue-600 font-semibold" onclick="showTab(event, 'orders')">Orders</button>
+                <button class="tab-link text-gray-600" onclick="showTab(event, 'wishlist')">Wishlist</button>
+                <button class="tab-link text-gray-600" onclick="showTab(event, 'addresses')">Addresses</button>
                 <a href="{% url 'add' %}" class="add-address-btn">Add New Address</a>
             </nav>
         </div>
@@ -52,9 +57,16 @@
             {% if orders %}
                 {% for order in orders %}
                 <div class="border p-3 rounded-md shadow-sm mb-3">
-                    <p class="font-semibold">Order #{{ order.id }}</p>
+                    <p class="font-semibold">Order {{ order.id }}</p>
                     <p class="text-sm text-gray-600">{{ order.status }} - {{ order.order_date }}</p>
-                    <button class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">View Details</button>
+
+                    <!-- Display product info -->
+                    <p>Product Name: {{ order.product.product_name }}</p>
+                    <p>Price: ₹{{ order.product.price }}</p>
+
+                    <a href="{% url 'product' order.product.id %}">
+                        <button class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">View Details</button>
+                    </a>
                 </div>
                 {% endfor %}
             {% else %}
@@ -74,7 +86,6 @@
             {% if addresses %}
                 {% for address in addresses %}
                 <div class="border p-3 rounded-md shadow-sm mb-3">
-                    <p><strong>Photo:</strong> {{ address.photo }}</p>
                     <p><strong>Name:</strong> {{ address.name }}</p>
                     <p><strong>Locality:</strong> {{ address.locality }}</p>
                     <p><strong>City:</strong> {{ address.city }}</p>
@@ -90,12 +101,16 @@
 
     <!-- JavaScript for Tabs -->
     <script>
-        function showTab(tabName) {
+        function showTab(event, tabName) {
+            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.add('hidden');
             });
+
+            // Show the selected tab
             document.getElementById(tabName).classList.remove('hidden');
 
+            // Change the active tab styling
             document.querySelectorAll('.tab-link').forEach(link => {
                 link.classList.remove('text-blue-600', 'font-semibold');
                 link.classList.add('text-gray-600');
