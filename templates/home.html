@@ -20,32 +20,36 @@
             top: 0;
             z-index: 1000;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            flex-wrap: wrap;
         }
         .logo {
             font-size: 24px;
             font-weight: bold;
+            flex: 1;
         }
-        .search-container {
-            display: flex;
-            width: 50%;
-            background: white;
-            padding: 5px;
-            border-radius: 5px;
-        }
+        
         .search-bar {
             flex: 1;
             border: none;
-            padding: 8px;
-            outline: none;
+            padding: 6px 8px;
             font-size: 14px;
+            outline: none;
         }
         .search-btn {
             background: #2874f0;
             border: none;
             color: white;
-            padding: 8px 12px;
+            padding: 6px 10px;
+            font-size: 14px;
             cursor: pointer;
             border-radius: 5px;
+            margin-left: 5px;
+        }
+        .nav {
+            display: flex;
+            flex: 3;
+            justify-content: flex-end;
+            align-items: center;
         }
         .nav a {
             color: white;
@@ -58,15 +62,14 @@
         .nav a:hover {
             color: #2874f0;
         }
-
         /* Product Grid */
         .product-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 15px;
             padding: 20px;
-            width:90%;
-            margin:auto
+            width: 90%;
+            margin: auto;
         }
         .product {
             background: white;
@@ -133,6 +136,48 @@
         .footer-links a:hover {
             color: white;
         }
+
+        /* Mobile View Adjustments */
+        @media (max-width: 768px) {
+            .search-container {
+                width: 70%;
+                padding: 2px 4px;
+                margin-top: 10px;
+            }
+
+            .search-bar {
+                padding: 5px;
+                font-size: 13px;
+            }
+
+            .search-btn {
+                padding: 5px 8px;
+                font-size: 13px;
+            }
+
+            .nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-top: 10px;
+            }
+
+            .nav a {
+                font-size: 14px;
+                margin: 5px 10px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .logo {
+                font-size: 20px;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -142,35 +187,34 @@
         <div class="logo">TrendyKart</div>
         
         <div class="search-container">
-            <input type="text" class="search-bar" placeholder="Search for products, brands and more">
-            <button class="search-btn">🔍</button>
-        </div>
-
+            <form method="get" action="{% url 'search' %}">
+                <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+                <button type="submit">🔍</button>
+            </form>
+        </div> 
         <div class="nav">
             <a href="{% url 'about' %}">About Us</a>
             
             {% if user.is_authenticated %}
                 <a href="{% url 'cart' %}">Cart</a>
                 <a href="{% url 'profile' %}">Profile</a>
-                
             {% else %}
                 <a href="{% url 'register' %}">Register</a>
                 <a href="{% url 'login' %}">Log in</a>
             {% endif %}
         </div>
-        
     </div>
 
     <!-- Products -->
     <div class="product-container">
         {% for prod in products %}
-    <div class="product" onclick="window.location.href='/product/{{ prod.id }}/'">
-            <img src="{{ prod.product_img.url }}" alt="{{ prod.product_name }}">
-            <h3>{{ prod.product_name }}</h3>
-            <p>₹{{ prod.price }}</p>
+            <div class="product" onclick="window.location.href='/product/{{ prod.id }}/'">
+                <img src="{{ prod.product_img.url }}" alt="{{ prod.product_name }}">
+                <h3>{{ prod.product_name }}</h3>
+                <p>₹{{ prod.price }}</p>
 
-            <a href="/cart/add/{{ prod.id }}/" class="cart-btn">🛒 Add to Cart</a>
-        </div>
+                <a href="/cart/add/{{ prod.id }}/" class="cart-btn">🛒 Add to Cart</a>
+            </div>
         {% endfor %}
     </div>
 
@@ -179,9 +223,9 @@
         <div class="footer-links">
             <a href="#">Privacy Policy</a>
             <a href="#">Terms & Conditions</a>
-            <a href="#">Contact Us</a>
+            <a href="{% url 'about' %}">Contact Us</a>
         </div>
-        © 2025 TrendyKart | Built for learning
+        © 2025 TrendyKart | Made by <a href="{% url 'about' %}">Amit Kumar</a>
     </div>
 
 </body>
