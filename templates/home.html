@@ -209,7 +209,7 @@
     <div class="product-container">
         {% for prod in products %}
             <div class="product" onclick="window.location.href='/product/{{ prod.id }}/'">
-                <img src="{{ prod.product_image.url }}" alt="{{ prod.product_name }}">
+               <img src="{{ prod.product_img.url }}"  alt="{{ prod.product_name }}">
                 <h3>{{ prod.product_name }}</h3>
                 <p>₹{{ prod.price }}</p>
 
