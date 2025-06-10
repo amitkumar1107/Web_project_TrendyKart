@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from . import views
 from django.contrib.auth import views as auth_views
 from .forms import loginform
-from .views import cart_view,add_to_cart,remove_from_cart,buy_now,order_success
+from .views import cart_view,add_to_cart,remove_from_cart,buy_now,search
 
 from .views import cart_view,product1,about
 urlpatterns = [
@@ -22,7 +22,8 @@ urlpatterns = [
    path('cart/add/<int:product_id>/', add_to_cart, name='add_to_cart'),
    path('cart/remove/<int:cart_id>/', remove_from_cart, name='remove_from_cart'),
    path('cart/buy/<int:id>/', buy_now, name='buy_now'),
-   path('order-success/', views.order_success, name='order_success'),
-   path('buynow/',views.order_success,name="buynow")
+   path('buynow/',views.buy_now,name="buynow"),
+   path('search/', search, name='search'),
+#    path('order/<int:order_id>/', views.product1, name='product'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
