@@ -89,33 +89,33 @@ WSGI_APPLICATION = 'ecom.wsgi.application'
 # }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'fastapilearn', 
-        'CLIENT': {
-            'host': 'mongodb+srv://amitkumar:Amit4520@fastapilearn.5ltpg.mongodb.net/fastapilearn?retryWrites=true&w=majority',
-            'tls': True,
-        }
-    }
-}
-
-
-
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'djongo',
-#         'NAME': 'fastapilearn',  
-#         'ENFORCE_SCHEMA': False,
+#         'NAME': 'fastapilearn', 
 #         'CLIENT': {
-#             'host': 'mongodb+srv://amitkumar:Amit4520@fastapilearn.5ltpg.mongodb.net/fastapilearn?retryWrites=true&w=majority&tls=true',
-#             'username': 'amitkumar',
-#             'password': 'Amit4520',
-#             'authSource': 'admin',
+#             'host': 'mongodb+srv://amitkumar:Amit4520@fastapilearn.5ltpg.mongodb.net/fastapilearn?retryWrites=true&w=majority',
+#             'tls': True,
 #         }
 #     }
 # }
+
+
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'fastapilearn',  
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': 'mongodb+srv://amitkumar:Amit4520@fastapilearn.5ltpg.mongodb.net/fastapilearn?retryWrites=true&w=majority&tls=true',
+            'username': 'amitkumar',
+            'password': 'Amit4520',
+            'authSource': 'admin',
+        }
+    }
+}
 
 
 # Password validation
