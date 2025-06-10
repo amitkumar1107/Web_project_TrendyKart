@@ -30,9 +30,7 @@ SECRET_KEY = 'django-insecure-2vz^hza71o%mhk851mute0itu)^(uo84g9b$1jf!r=4cf&t2=d
 DEBUG = True
 
 
-# ALLOWED_HOSTS = ['trendy-kart.up.railway.app', 'www.trendy-kart.up.railway.app']
 ALLOWED_HOSTS = ['*']
-
 
 
 
@@ -83,10 +81,42 @@ WSGI_APPLICATION = 'ecom.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'fastapilearn', 
+        'CLIENT': {
+            'host': 'mongodb+srv://amitkumar:Amit4520@fastapilearn.5ltpg.mongodb.net/fastapilearn?retryWrites=true&w=majority',
+            'tls': True,
+        }
+    }
 }
+
+
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'fastapilearn',  
+#         'ENFORCE_SCHEMA': False,
+#         'CLIENT': {
+#             'host': 'mongodb+srv://amitkumar:Amit4520@fastapilearn.5ltpg.mongodb.net/fastapilearn?retryWrites=true&w=majority&tls=true',
+#             'username': 'amitkumar',
+#             'password': 'Amit4520',
+#             'authSource': 'admin',
+#         }
+#     }
+# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -112,7 +142,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# settings.py
+
+TIME_ZONE = 'Asia/Kolkata'  
+
 
 USE_I18N = True
 
