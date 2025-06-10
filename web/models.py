@@ -27,7 +27,7 @@ class Product(models.Model):
     price=models.IntegerField()
     dec=models.CharField(max_length=500)
     category=models.CharField(choices=CATEGORY_CHOICE,max_length=100)
-    product_img=models.ImageField(upload_to='productimg')
+    product_img=models.ImageField(upload_to='products/')
     
     def __str__(self):
         return str(self.id)
