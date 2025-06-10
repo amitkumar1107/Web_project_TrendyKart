@@ -174,8 +174,8 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_URL = '/static/'
-MEDIA_URL='/media/'
-MEDIA_ROOT=BASE_DIR/'media'
+# MEDIA_URL='/media/'
+# MEDIA_ROOT=BASE_DIR/'media'
 LOGIN_REDIRECT_URL = '/profile/'
 # LOGIN_URL = '/login/'
 
