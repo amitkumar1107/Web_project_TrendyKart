@@ -5,6 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | E-Commerce</title>
     <style>
+        .header {
+            background: #2874f0;
+            padding: 15px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header h1 { font-size: 22px; }
+
+        .btn-container { display: flex; gap: 10px; }
+
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .back-btn { background: #0d45a0; }
+        .back-btn:hover { background: #0b3a8c; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f3f6;
+            margin-top: 60px; /* Space for the header */
+        }
         * {
             margin: 0;
             padding: 0;
@@ -109,6 +154,12 @@
     </style>
 </head>
 <body>
+    <div class="header">
+        <h1>TrendyKart</h1>
+        <div class="btn-container">
+            <a href="{% url 'home' %}" class="btn back-btn">Back</a>
+        </div>
+    </div>
     <div class="register-container">
         <div class="left-section">
             <h2>Looks like you're new here!</h2>
