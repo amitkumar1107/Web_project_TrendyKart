@@ -15,8 +15,9 @@ from pymongo import MongoClient
 from django.db.models import Q
 
 # Connect to MongoDB
-client = MongoClient("mongodb+srv://amitkumar:Amit4520@fastapilearn.5ltpg.mongodb.net/")
-
+import os
+MONGODB_URI = os.getenv('MONGODB_URI')
+client = MongoClient(MONGODB_URI)
 # Select your database and collection
 db = client["fastapilearn"]
 
