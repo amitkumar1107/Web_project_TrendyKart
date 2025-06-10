@@ -11,8 +11,23 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from pymongo import MongoClient
+from django.db.models import Q
+
+# Connect to MongoDB
+client = MongoClient("mongodb+srv://amitkumar:Amit4520@fastapilearn.5ltpg.mongodb.net/")
+
+# Select your database and collection
+db = client["fastapilearn"]
+
+collection = db["web_product"]
+
+# Get all documents
+documents = collection.find({"category" : "M"})
+
 
 #home
+
 class productview(View):
     def get(self,request):
         products = Product.objects.all()
@@ -40,21 +55,23 @@ def product1(request, id):
 
 class ProfileView(LoginRequiredMixin, View):
     def get(self, request):
-        users = request.user 
-        address=customer.objects.filter(user=users)
-        order = Product.objects.filter(user=users) if hasattr(Product, 'user') else None
-        user_pic=customer.objects.filter(user=users)
+        users = request.user
+        
+        # Fetch the user's address from the 'customer' model
+        address = customer.objects.filter(user=users)
+        
+        # Fetch the user's orders from the 'orderplaced' model
+        orders = orderplaced.objects.filter(user=users).order_by('-order_date')
+        
+        # Fetch the user's profile picture from the 'customer' model (assuming it exists)
+        user_pic = customer.objects.filter(user=users).first()  # Using .first() to safely handle None
+
         return render(request, 'profile.html', {
             'users': users, 
-            'orders': order,  # Fix variable name (was order)
+            'orders': orders,  # Fix variable name (was order)
             'addresses': address,
-            'user_pic':user_pic  # Now correctly passing addresses
+            'user_pic': user_pic  # Passing the user's profile picture
         })
-
-                      
-                
-
-
 
 @method_decorator(login_required, name='dispatch')
 class add(View):
@@ -113,48 +130,91 @@ def remove_from_cart(request, cart_id):
         print(f"Cart item with ID {cart_id} not found for user {request.user}")  # Debugging
         return redirect('cart')  # Redirect if item does not exist
 
-    cart_item.delete()  # Delete item if found
+    cart_item.delete()  
     return redirect('cart')
 
 
-def buy_now(request, id):
-    product_obj = Product.objects.get(id=id)
-    
-    if not request.user.is_authenticated:
-        messages.error(request, "Please log in to place an order!")
-        return redirect('login')
+@login_required
+def buy_now(request):
+    user = request.user
+    cart_items = Cart.objects.filter(user=user)
 
-    # Get Customer Profile
+    if not cart_items.exists():
+        messages.error(request, "Your cart is empty!")
+        return redirect('cart')
+
     try:
-        customer = customer.objects.get(user=request.user)
+        cust = customer.objects.get(user=user)
     except customer.DoesNotExist:
         messages.error(request, "Please complete your profile before ordering!")
         return redirect('profile')
 
-    # ✅ Create and Save Order
-    order =orderplaced.objects.create(
-        user=request.user,
-        customer=customer,
-        product=product_obj,
-        quantity=1
+    # Create the Order
+    total_price = sum(item.product.price * item.quantity for item in cart_items)
+
+    order = Order.objects.create(
+        user=user,
+        product_name=", ".join([item.product.product_name for item in cart_items]),
+        quantity=sum([item.quantity for item in cart_items]),
+        total_price=total_price
     )
 
+    # Now save each item in the OrderItem model
+    for item in cart_items:
+        OrderItem.objects.create(
+            product_name=item.product.product_name,
+            order=order,
+            product=item.product,
+            quantity=item.quantity
+        )
+
+    # Create a record in the orderplaced model
+    for item in cart_items:
+        orderplaced.objects.create(
+            user=user,
+            customer=cust,
+            product=item.product,
+            quantity=item.quantity
+        )
+
+    # Clear the cart after order
+    cart_items.delete()
+
     messages.success(request, "Order placed successfully!")
-    return redirect('order_success')  # Redirect to order success page
-def order_success(request):
     return render(request, 'order_success.html')
 
-class profile_update(View):
-    def get(self,request):
-        if request =='POST':
-            user_name=User.objects.filter
 
 
-# class orderpleasd(View):
-#     def get(request ,id):
-#         product_obj = Product.objects.get(id=id)
-#         user=request.user
-#         orderr=orderpleasd(request.POST)
-#         if orderr.is_valid():
-#             orderr.save()
+
+def order_succes(request):
+    if request.method == 'POST':
+        product_name = request.POST['product_name']
+        quantity = int(request.POST['quantity'])
         
+        # Fetch the product's price from the Product model (assuming the product exists)
+        try:
+            product = Product.objects.get(name=product_name)
+            total_price = product.price * quantity  # Calculate the total price
+
+            # Create the order and save it
+            order = Order(user=request.user, product_name=product_name, quantity=quantity, total_price=total_price)
+            order.save()
+
+            return redirect('profile.html')  # Redirect to profile page after saving the order
+        except Product.DoesNotExist:
+            # Handle the case where the product does not exist
+            return render(request, 'order_error.html', {'error': 'Product not found'})
+        
+    return render(request, 'order_success.html')
+
+def search(request):
+    query = request.GET.get('q', '')
+    
+    if query:
+        # Case-insensitive search for products
+        products = Product.objects.filter(product_name__icontains=query)
+    else:
+        # Show all products if no query is provided
+        products = Product.objects.all()
+
+    return render(request, 'home.html', {"products": products, "query": query})
