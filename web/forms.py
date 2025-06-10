@@ -17,11 +17,22 @@ class customeregistrationform(UserCreationForm):
 
 
 class loginform(AuthenticationForm):
-    username = forms.CharField( widget=forms.TextInput(attrs={"autofocus": True, 'class': "form-control"}))
+    username = forms.CharField(
+        label='Username',  # Correct the label to "Username"
+        widget=forms.TextInput(attrs={
+            "autofocus": True,
+            'class': "form-control",
+            'placeholder': 'Enter your username'  # Adding placeholder for username
+        })
+    )
     password = forms.CharField(
         label=_("Password"),
         strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'class': "form-control"})
+        widget=forms.PasswordInput(attrs={
+            'autocomplete': 'current-password',
+            'class': "form-control",
+            'placeholder': 'Enter your password'  # Adding placeholder for password
+        })
     )
 
 class CustomerAddressForm(forms.ModelForm):
