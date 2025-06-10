@@ -7,3 +7,15 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11
+
+services:
+  - type: web
+    name: trendykart
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      pip install "pymongo[srv]" dnspython
+    startCommand: gunicorn ecom.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
