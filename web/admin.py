@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import (customer,Product,Cart,orderplaced,profile)
+from .models import (customer,Product,Cart,orderplaced,profile,Order)
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
@@ -34,3 +34,6 @@ class CustomUserAdmin(BaseUserAdmin):
 @admin.register(profile)
 class profileadmin(admin.ModelAdmin):
     list_display=['photo']
+    
+admin.site.register(Order)
+
