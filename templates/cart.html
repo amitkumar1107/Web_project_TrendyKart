@@ -184,7 +184,9 @@
                             <option value="{{ add.id }}">{{ add.city }}</option>
                         {% endfor %}
                     </select>
-                    <button class="buy-now" onclick="buyNow()">Buy Now</button>
+                    {% comment %} <button class="buy-now" onclick="buyNow()">Buy Now</button> {% endcomment %}
+                    <a href="{% url 'buynow' %}" class="buy-now">Buy Now</a>
+                    {% comment %} <a href="{% url 'buynow' %}" class="buy-now">Buy Now</a> {% endcomment %}
                 {% else %}
                     <p>No saved addresses found.</p>
                     <a href="{% url 'add' %}" class="add-address-btn">Add Address</a>
