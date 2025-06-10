@@ -52,19 +52,22 @@ class orderplaced(models.Model):
     product=models.ForeignKey(Product,on_delete=models.CASCADE)
     quantity=models.PositiveIntegerField(default=1)
     order_date=models.DateTimeField(auto_now_add=True)
-    status=models.CharField(max_length=50,choices=status_choise,default='panding')
+    status=models.CharField(max_length=50,choices=status_choise,default='Accepted')
 
 
 
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Link order to a user
-    total_price = models.IntegerField()  # Store total price of all products in cart
+    product_name = models.CharField(max_length=255)  # Store the product's name
+    quantity = models.IntegerField()  # Store the quantity of the product
+    total_price = models.IntegerField()  # Store the total price of all products in cart
     created_at = models.DateTimeField(auto_now_add=True)  # Order timestamp
-
+    
     def __str__(self):
         return f"Order {self.id} by {self.user.username}"
 class OrderItem(models.Model):
+    product_name = models.CharField(max_length=100)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
