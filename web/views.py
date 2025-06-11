@@ -144,13 +144,13 @@ def buy_now(request):
         messages.error(request, "Your cart is empty!")
         return redirect('cart')
 
-    try:
-        cust = customer.objects.get(user=user)
-    except customer.DoesNotExist:
+    # ✅ Fetch the first matching customer (safe fix)
+    cust = customer.objects.filter(user=user).first()
+    if not cust:
         messages.error(request, "Please complete your profile before ordering!")
         return redirect('profile')
 
-    # Create the Order
+    # ✅ Create the Order
     total_price = sum(item.product.price * item.quantity for item in cart_items)
 
     order = Order.objects.create(
@@ -160,7 +160,7 @@ def buy_now(request):
         total_price=total_price
     )
 
-    # Now save each item in the OrderItem model
+    # ✅ Create entries in OrderItem
     for item in cart_items:
         OrderItem.objects.create(
             product_name=item.product.product_name,
@@ -169,7 +169,7 @@ def buy_now(request):
             quantity=item.quantity
         )
 
-    # Create a record in the orderplaced model
+    # ✅ Create entries in orderplaced
     for item in cart_items:
         orderplaced.objects.create(
             user=user,
@@ -178,12 +178,11 @@ def buy_now(request):
             quantity=item.quantity
         )
 
-    # Clear the cart after order
+    # ✅ Clear the cart after placing order
     cart_items.delete()
 
     messages.success(request, "Order placed successfully!")
     return render(request, 'order_success.html')
-
 
 
 
