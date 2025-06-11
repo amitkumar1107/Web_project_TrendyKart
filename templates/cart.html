@@ -164,7 +164,7 @@
         {% if cart_items %}
             {% for item in cart_items %}
             <div class="cart-item">
-                <img src="{{ item.product_img.url }}" alt="{{ item.product.product_name }}">
+                <img src="{{ item.product.product_img.url }}" alt="{{ item.product.product_name }}">
                 <div class="info">
                     <h3>{{ item.product.product_name }}</h3>
                     <p>₹{{ item.product.price }} x {{ item.quantity }}</p>
