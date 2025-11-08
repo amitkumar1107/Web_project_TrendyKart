@@ -1,44 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Address</title>
-    <style>
-        .container {
-            width: 50%;
-            margin: auto;
-            padding: 20px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-        input, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            background-color: blue;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: darkblue;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Address - TrendyKart</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* 3D Button Effect */
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+input, select, textarea {
+    transition: all 0.3s ease;
+}
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #2874f0;
+    box-shadow: 0 0 5px rgba(40,116,240,0.5);
+}
+</style>
 </head>
-<body>
-    <div class="container">
-        <h2>Add Your Address</h2>
-        <form method="POST">
+<body class="bg-gray-100">
+
+<!-- Header -->
+<header class="bg-blue-600 text-white py-4 px-6 flex justify-between items-center fixed w-full top-0 z-50 shadow-lg">
+    <h1 class="text-2xl font-bold">TrendyKart</h1>
+    <button class="bg-blue-800 px-4 py-2 rounded-lg font-semibold" onclick="window.history.back()">Go Back</button>
+</header>
+
+<!-- Form Container -->
+<main class="max-w-2xl mx-auto mt-24 px-4 pb-10">
+    <div class="bg-white p-8 rounded-2xl shadow-lg">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Add Your Address</h2>
+        <form method="POST" class="space-y-4">
             {% csrf_token %}
-            {{ form.as_p }}  <!-- This will render input fields -->
-            <button type="submit">Save Address</button>
+            {% for field in form %}
+                <div class="flex flex-col">
+                    <label for="{{ field.id_for_label }}" class="text-gray-700 font-medium mb-1">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <span class="text-red-500 text-sm mt-1">{{ field.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold shadow-md hover:bg-blue-700">Save Address</button>
         </form>
     </div>
+</main>
+
 </body>
 </html>
