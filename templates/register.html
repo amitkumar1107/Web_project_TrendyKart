@@ -1,189 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | E-Commerce</title>
-    <style>
-        .header {
-            background: #2874f0;
-            padding: 15px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register | TrendyKart</title>
 
-        .header h1 { font-size: 22px; }
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-        .btn-container { display: flex; gap: 10px; }
+<style>
+/* ---------- Base Reset ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+body {
+    background: linear-gradient(180deg, #f1f3f6, #ffffff);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-        .btn {
-            padding: 10px 15px;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            text-decoration: none;
-            text-align: center;
-            display: inline-block;
-        }
+/* ---------- Header ---------- */
+.header {
+    background: #2874f0;
+    padding: 15px 30px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
 
-        .back-btn { background: #0d45a0; }
-        .back-btn:hover { background: #0b3a8c; }
+.header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+.header h1:hover {
+    transform: rotateY(20deg) scale(1.05);
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+.btn-container .btn {
+    padding: 10px 15px;
+    background: #0d45a0;
+    color: white;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s;
+    transform-style: preserve-3d;
+}
+.btn-container .btn:hover {
+    background: #0b3a8c;
+    transform: translateY(-5px) rotateX(5deg) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
 
-        body {
-            background: #f1f3f6;
-            margin-top: 60px; /* Space for the header */
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: #f1f3f6;
-            padding: 10px;
-        }
-        .register-container {
-            display: flex;
-            width: 800px;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        .left-section {
-            width: 40%;
-            background: #2874f0;
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        .left-section h2 {
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
-        .left-section p {
-            font-size: 14px;
-        }
-        .right-section {
-            width: 60%;
-            padding: 30px;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            margin-bottom: 5px;
-            color: #333;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #fb641b;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        button:hover {
-            background: #e05317;
-        }
-        p {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        p a {
-            color: #2874f0;
-            text-decoration: none;
-        }
-        p a:hover {
-            text-decoration: underline;
-        }
-        @media (max-width: 768px) {
-            .register-container {
-                flex-direction: column;
-                width: 90%;
-            }
-            .left-section {
-                width: 100%;
-                padding: 20px;
-            }
-            .right-section {
-                width: 100%;
-                padding: 20px;
-            }
-        }
-    </style>
+/* ---------- Register Container ---------- */
+.register-container {
+    display: flex;
+    width: 850px;
+    margin-top: 130px;
+    background: white;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    perspective: 1500px;
+    transform-style: preserve-3d;
+    animation: float 6s ease-in-out infinite;
+    transition: transform 0.6s;
+}
+.register-container:hover {
+    transform: rotateY(8deg) rotateX(4deg);
+}
+
+/* Floating Animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* ---------- Left Section ---------- */
+.left-section {
+    width: 40%;
+    background: #2874f0;
+    color: white;
+    padding: 50px 25px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.left-section::before {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    top: -50px;
+    left: -50px;
+    animation: floatCircle 8s linear infinite;
+}
+@keyframes floatCircle {
+    0% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(20px) translateX(20px); }
+    100% { transform: translateY(0) translateX(0); }
+}
+.left-section h2 {
+    font-size: 26px;
+    margin-bottom: 15px;
+}
+.left-section p {
+    font-size: 15px;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
+/* ---------- Right Section ---------- */
+.right-section {
+    width: 60%;
+    padding: 50px 40px;
+}
+.right-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 24px;
+}
+
+/* ---------- Form Inputs ---------- */
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+.form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+.form-group input {
+    width: 100%;
+    padding: 14px 16px 14px 40px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: all 0.4s ease;
+}
+.form-group input:focus {
+    border-color: #2874f0;
+    box-shadow: 0 0 15px rgba(40,116,240,0.5);
+    outline: none;
+    transform: translateZ(5px);
+}
+
+/* Input Icons */
+.form-group i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #2874f0;
+}
+
+/* ---------- Button ---------- */
+button[type="submit"] {
+    width: 100%;
+    padding: 16px;
+    background: #fb641b;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(251,100,27,0.4);
+    transition: all 0.4s ease;
+    transform-style: preserve-3d;
+    animation: pulse 2s infinite;
+}
+button[type="submit"]:hover {
+    background: #e05317;
+    transform: translateY(-6px) rotateX(5deg) scale(1.05);
+    box-shadow: 0 12px 25px rgba(251,100,27,0.5);
+}
+
+/* Pulse Animation for Button */
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 8px 20px rgba(251,100,27,0.4); }
+    50% { box-shadow: 0 12px 25px rgba(251,100,27,0.6); }
+}
+
+/* ---------- Login Link ---------- */
+p {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+p a {
+    color: #2874f0;
+    font-weight: 600;
+    text-decoration: none;
+}
+p a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Toast ---------- */
+.toast {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: #2874f0;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    opacity: 0;
+    transform: translateY(-30px);
+    transition: all 0.5s ease;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+.toast .close {
+    margin-left: auto;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ---------- Media Queries ---------- */
+@media (max-width: 768px) {
+    .register-container {
+        flex-direction: column;
+        width: 90%;
+        margin-top: 100px;
+    }
+    .left-section, .right-section {
+        width: 100%;
+        padding: 30px 20px;
+    }
+}
+</style>
 </head>
 <body>
-    <div class="header">
-        <h1>TrendyKart</h1>
-        <div class="btn-container">
-            <a href="{% url 'home' %}" class="btn back-btn">Back</a>
-        </div>
+
+<!-- Header -->
+<div class="header">
+    <h1 onclick="window.location.href='/'">TrendyKart</h1>
+    <div class="btn-container">
+        <a href="{% url 'home' %}" class="btn back-btn">Back</a>
     </div>
-    <div class="register-container">
-        <div class="left-section">
-            <h2>Looks like you're new here!</h2>
-            <p>Sign up to get started with amazing deals and offers.</p>
-        </div>
-        <div class="right-section">
-            <h2>Register</h2>
-            <form method="POST">
-                {% csrf_token %}
-                
-                {% for field in form %}
-                    <div class="form-group">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        {{ field }}
-                        {% if field.errors %}
-                            <div style="color: red; font-size: 12px;">{{ field.errors.0 }}</div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-                
-                <button type="submit">Register</button>
-                <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
-            </form>
-        </div>
+</div>
+
+<!-- Register Form -->
+<div class="register-container">
+    <div class="left-section">
+        <h2>Unlock Exclusive Deals & Offers!</h2>
+        <p>Join TrendyKart today and start your shopping adventure with amazing discounts, daily deals, and a personalized experience just for you!</p>
     </div>
+    <div class="right-section">
+        <h2>Join Us Now</h2>
+        <form method="POST" id="registerForm">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                <i class="fa-solid fa-user"></i>
+                {{ field }}
+                {% if field.errors %}
+                    <div style="color: red; font-size: 12px;">{{ field.errors.0 }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit">Register</button>
+            <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        </form>
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast">
+    <span id="toastMessage">Success!</span>
+    <span class="close" onclick="closeToast()">&times;</span>
+</div>
+
+<!-- JS for Toast -->
+<script>
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    const toastMessage = document.getElementById("toastMessage");
+    toastMessage.textContent = message;
+    toast.classList.add("show");
+    setTimeout(() => { toast.classList.remove("show"); }, 3000);
+}
+function closeToast() {
+    document.getElementById("toast").classList.remove("show");
+}
+{% if messages %}
+    {% for message in messages %}
+        showToast("{{ message }}");
+    {% endfor %}
+{% endif %}
+</script>
+
 </body>
 </html>
