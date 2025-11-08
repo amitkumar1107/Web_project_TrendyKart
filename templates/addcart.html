@@ -1,25 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Addresses</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Addresses - TrendyKart</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* 3D card hover effect */
+.address-card {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+}
+.address-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+</style>
 </head>
-<body>
-    <h1>Your Saved Addresses</h1>
-    
+<body class="bg-gray-100">
+
+<!-- Header -->
+<header class="bg-blue-600 text-white py-4 px-6 flex justify-between items-center fixed w-full top-0 z-50 shadow-lg">
+    <h1 class="text-2xl font-bold">TrendyKart</h1>
+    <button class="bg-blue-800 px-4 py-2 rounded-lg font-semibold" onclick="window.history.back()">Go Back</button>
+</header>
+
+<main class="max-w-5xl mx-auto mt-24 px-4 pb-10">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Your Saved Addresses</h2>
+
     {% if address %}
-        <ul>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             {% for addr in address %}
-                <li>
-                    <strong>{{ addr.full_name }}</strong><br>
-                    {{ addr.street }}, {{ addr.city }}, {{ addr.state }} - {{ addr.pincode }}<br>
-                    <small>Phone: {{ addr.phone }}</small>
-                </li>
+                <div class="address-card bg-white p-6 rounded-xl shadow-md">
+                    <p class="font-semibold text-lg text-blue-600">{{ addr.full_name }}</p>
+                    <p class="text-gray-700 mt-1">{{ addr.street }}, {{ addr.city }}, {{ addr.state }} - {{ addr.pincode }}</p>
+                    <p class="text-gray-500 mt-2">📞 {{ addr.phone }}</p>
+                    <div class="mt-4 flex gap-3">
+                        <a href="{% url 'edit_address' addr.id %}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Edit</a>
+                        <a href="{% url 'delete_address' addr.id %}" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">Delete</a>
+                    </div>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
-        <p>No addresses found.</p>
+        <p class="text-center text-gray-600 mt-6 text-lg">No addresses found. <a href="{% url 'add_address' %}" class="text-blue-600 underline">Add a new address</a></p>
     {% endif %}
+</main>
+
 </body>
 </html>
