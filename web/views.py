@@ -209,12 +209,11 @@ def order_succes(request):
 
 def search(request):
     query = request.GET.get('q', '')
-    
-    if query:
-        # Case-insensitive search for products
-        products = Product.objects.filter(product_name__icontains=query)
-    else:
-        # Show all products if no query is provided
-        products = Product.objects.all()
-
+    all_products = Product.objects.all()
+    products = [
+        p for p in all_products
+        if query.lower() in p.product_name.lower()
+        or query.lower() in p.category.lower()
+        or query.lower() in p.dec.lower()
+    ]
     return render(request, 'home.html', {"products": products, "query": query})
