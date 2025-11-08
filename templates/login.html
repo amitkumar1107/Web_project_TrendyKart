@@ -7,20 +7,31 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <style>
-/* Smooth transition for inputs & buttons */
+/* Smooth transitions */
 input, button {
     transition: all 0.3s ease;
 }
 
-/* Hover and focus effects */
+/* Input hover/focus */
 input:focus {
     outline: none;
     border-color: #2874f0;
-    box-shadow: 0 0 8px rgba(40,116,240,0.4);
+    box-shadow: 0 0 10px rgba(40,116,240,0.5);
 }
+
+/* 3D effect on hover */
 .login-btn:hover, .otp-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+}
+
+/* Icon position */
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
 }
 </style>
 </head>
@@ -33,31 +44,31 @@ input:focus {
 </header>
 
 <!-- Login Form -->
-<div class="flex flex-1 justify-center items-center p-4">
-    <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-2xl w-full max-w-4xl overflow-hidden">
+<div class="flex flex-1 justify-center items-center p-6">
+    <div class="flex flex-col md:flex-row bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden">
         
         <!-- Left Panel -->
-        <div class="md:w-2/5 bg-blue-600 p-10 text-white flex flex-col justify-center items-center">
+        <div class="md:w-2/5 bg-blue-600 p-12 text-white flex flex-col justify-center items-center">
             <h2 class="text-3xl font-bold mb-4">Login</h2>
             <p class="text-center text-sm opacity-90">Access your orders, wishlist, and personalized recommendations.</p>
         </div>
 
-        <!-- Right Panel -->
-        <div class="md:w-3/5 p-10">
-            <form method="POST" class="space-y-4">
+        <!-- Right Panel: Form -->
+        <div class="md:w-3/5 p-12 flex flex-col justify-center">
+            <form method="POST" class="space-y-6">
                 {% csrf_token %}
-                
+
                 <div class="relative">
-                    <i class="fas fa-user absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                    {{ form.username|add_class:"w-full border rounded-lg px-12 py-3 text-gray-700" }}
+                    <i class="fas fa-user input-icon"></i>
+                    {{ form.username }}
                 </div>
 
                 <div class="relative">
-                    <i class="fas fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                    {{ form.password|add_class:"w-full border rounded-lg px-12 py-3 text-gray-700" }}
+                    <i class="fas fa-lock input-icon"></i>
+                    {{ form.password }}
                 </div>
 
-                <button type="submit" class="login-btn w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold">Login</button>
+                <button type="submit" class="login-btn w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-xl font-bold shadow-lg">Login</button>
 
                 <p class="text-center text-sm mt-2">
                     <a href="#" class="text-blue-600 font-semibold hover:underline">Forgot Password?</a>
@@ -69,7 +80,7 @@ input:focus {
                     <hr class="flex-1 border-t border-gray-300">
                 </div>
 
-                <button type="button" class="otp-btn w-full border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white py-3 rounded-lg font-semibold">Login with OTP</button>
+                <button type="button" class="otp-btn w-full border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white py-4 rounded-xl font-semibold">Login with OTP</button>
 
                 <p class="text-center text-sm mt-4">
                     New to TrendyKart? 
@@ -80,5 +91,6 @@ input:focus {
 
     </div>
 </div>
+
 </body>
 </html>
