@@ -1,227 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <style>
-        .header {
-            background: #2874f0;
-            padding: 15px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - TrendyKart</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<style>
+/* Smooth transition for inputs & buttons */
+input, button {
+    transition: all 0.3s ease;
+}
 
-        .header h1 { font-size: 22px; }
-
-        .btn-container { display: flex; gap: 10px; }
-
-        .btn {
-            padding: 10px 15px;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            text-decoration: none;
-            text-align: center;
-            display: inline-block;
-        }
-
-        .back-btn { background: #0d45a0; }
-        .back-btn:hover { background: #0b3a8c; }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background: #f1f3f6;
-            margin-top: 60px; /* Space for the header */
-        }
-
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: calc(100vh - 60px); /* Ensure the container takes up the remaining space */
-        }
-
-        .login-form {
-            display: flex;
-            width: 800px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-        }
-
-        .left {
-            background: #2874f0;
-            padding: 30px;
-            width: 40%;
-            color: white;
-        }
-
-        .left h2 {
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
-
-        .left p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .right {
-            width: 60%;
-            padding: 40px;
-        }
-
-        .input-box {
-            margin-bottom: 1rem;
-            position: relative;
-        }
-
-        .input-box input {
-            width: 100%;
-            padding: 12px;
-            padding-left: 40px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            outline: none;
-            font-size: 14px;
-        }
-
-        .input-box i {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #666;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            background: #fb641b;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .login-btn:hover {
-            background: #e65b1b;
-        }
-
-        .forgot-password, .register {
-            margin-top: 10px;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .forgot-password a, .register a {
-            color: #2874f0;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .forgot-password a:hover, .register a:hover {
-            text-decoration: underline;
-        }
-
-        .divider {
-            text-align: center;
-            margin: 20px 0;
-            color: #888;
-            position: relative;
-        }
-
-        .divider:before, .divider:after {
-            content: "";
-            position: absolute;
-            width: 40%;
-            height: 1px;
-            background: #ccc;
-            top: 50%;
-        }
-
-        .divider:before { left: 0; }
-        .divider:after { right: 0; }
-
-        .otp-btn {
-            width: 100%;
-            padding: 12px;
-            background: white;
-            border: 1px solid #2874f0;
-            color: #2874f0;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: bold;
-        }
-
-        .otp-btn:hover {
-            background: #2874f0;
-            color: white;
-        }
-    </style>
+/* Hover and focus effects */
+input:focus {
+    outline: none;
+    border-color: #2874f0;
+    box-shadow: 0 0 8px rgba(40,116,240,0.4);
+}
+.login-btn:hover, .otp-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+</style>
 </head>
-<body>
+<body class="bg-gradient-to-r from-blue-600 to-blue-400 min-h-screen flex flex-col">
 
-    <div class="header">
-        <h1>TrendyKart</h1>
-        <div class="btn-container">
-            <a href="{% url 'home' %}" class="btn back-btn">Back</a>
+<!-- Header -->
+<header class="flex justify-between items-center bg-blue-700 text-white px-6 py-4 shadow-lg">
+    <h1 class="text-2xl font-bold">TrendyKart</h1>
+    <a href="{% url 'home' %}" class="bg-blue-900 px-4 py-2 rounded-lg font-semibold hover:bg-blue-800 transition">Back</a>
+</header>
+
+<!-- Login Form -->
+<div class="flex flex-1 justify-center items-center p-4">
+    <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-2xl w-full max-w-4xl overflow-hidden">
+        
+        <!-- Left Panel -->
+        <div class="md:w-2/5 bg-blue-600 p-10 text-white flex flex-col justify-center items-center">
+            <h2 class="text-3xl font-bold mb-4">Login</h2>
+            <p class="text-center text-sm opacity-90">Access your orders, wishlist, and personalized recommendations.</p>
         </div>
-    </div>
 
-    <div class="container">
-        <div class="login-form">
-            <div class="left">
-                <h2>Login</h2>
-                <p>Get access to your orders, wishlist, and recommendations</p>
-            </div>
+        <!-- Right Panel -->
+        <div class="md:w-3/5 p-10">
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+                
+                <div class="relative">
+                    <i class="fas fa-user absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    {{ form.username|add_class:"w-full border rounded-lg px-12 py-3 text-gray-700" }}
+                </div>
 
-            <div class="right">
-                <form method="POST">
-                    {% csrf_token %}
-                    <div class="input-box">
-                        <i class="fas fa-user"></i>
-                        {{ form.username }}
-                    </div>
+                <div class="relative">
+                    <i class="fas fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    {{ form.password|add_class:"w-full border rounded-lg px-12 py-3 text-gray-700" }}
+                </div>
 
-                    <div class="input-box">
-                        <i class="fas fa-lock"></i>
-                        {{ form.password }}
-                    </div>
-                    <button type="submit" class="login-btn">Login</button>
+                <button type="submit" class="login-btn w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold">Login</button>
 
-                    <p class="forgot-password"><a href="#">Forgot Password?</a></p>
+                <p class="text-center text-sm mt-2">
+                    <a href="#" class="text-blue-600 font-semibold hover:underline">Forgot Password?</a>
+                </p>
 
-                    <div class="divider">OR</div>
+                <div class="flex items-center my-4 text-gray-400">
+                    <hr class="flex-1 border-t border-gray-300">
+                    <span class="px-2">OR</span>
+                    <hr class="flex-1 border-t border-gray-300">
+                </div>
 
-                    <p class="register">New to our site? <a href="{% url 'register' %}">Register Here</a></p>
-                </form>
-            </div>
+                <button type="button" class="otp-btn w-full border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white py-3 rounded-lg font-semibold">Login with OTP</button>
+
+                <p class="text-center text-sm mt-4">
+                    New to TrendyKart? 
+                    <a href="{% url 'register' %}" class="text-blue-600 font-semibold hover:underline">Register Here</a>
+                </p>
+            </form>
         </div>
-    </div>
 
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    </div>
+</div>
 </body>
 </html>
