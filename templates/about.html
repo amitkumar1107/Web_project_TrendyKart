@@ -1,110 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - TrendyKart</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f5f5f5; color: #333; }
-        .header { 
-            background: #2874f0; 
-            padding: 15px; 
-            display: flex;
-            justify-content: space-between; /* Aligns content to the left and right */
-            align-items: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .header .logo {
-            font-size: 20px; /* Style the logo */
-        }
-        .header .nav-links a {
-            color: white;
-            margin: 0 15px;
-            text-decoration: none;
-            font-size: 18px;
-        }
-        .header .nav-links a:hover {
-            text-decoration: underline;
-        }
-        .container { max-width: 900px; margin: 30px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
-        h1, h2 { color: #222; text-align: center; }
-        p { line-height: 1.6; text-align: center; font-size: 16px; color: #555; }
-        .why-choose-us { display: flex; justify-content: space-between; flex-wrap: wrap; margin-top: 30px; }
-        .box { flex: 1; min-width: 250px; padding: 20px; background: #f8f9fa; border-radius: 6px; margin: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
-        .box h3 { color: #2874f0; }
-        .footer { text-align: center; padding: 15px; background: #222; color: white; margin-top: 30px; }
-        .about-me { display: flex; align-items: center; margin-top: 40px; }
-        .about-me img { width: 120px; height: 120px; border-radius: 50%; margin-right: 20px; }
-        .about-me .details { flex: 1; }
-        .about-me h3 { color: #2874f0; }
-        .about-me p { font-size: 16px; color: #555; line-height: 1.6; }
-        .back-button-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .back-button, .back-button-container button {
-            background-color:rgb(22, 35, 150);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            text-align: center;
-            text-decoration: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us - TrendyKart</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* 3D Card Hover */
+.card {
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  transform-style: preserve-3d;
+}
+.card:hover {
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+}
+
+/* Founder Image Hover */
+.founder img {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.founder img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+/* Animated Counter */
+.counter {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2874f0;
+}
+
+/* Testimonial 3D Effect */
+.testimonial-card {
+  perspective: 1000px;
+  transition: transform 0.6s ease;
+}
+.testimonial-card:hover {
+  transform: rotateY(5deg) rotateX(5deg);
+}
+</style>
 </head>
-<body>
+<body class="bg-gray-100">
 
-    <div class="header">
-        <!-- Left side of the header (Logo) -->
-        <div class="logo">TrendyKart</div>
+<!-- Header -->
+<header class="bg-blue-600 text-white py-4 px-6 flex justify-between items-center shadow-lg fixed w-full top-0 z-50">
+  <div class="text-2xl font-bold">TrendyKart</div>
+  <button class="back-button bg-blue-800 px-4 py-2 rounded-lg font-semibold" onclick="window.history.back()">Go Back</button>
+</header>
 
-        <!-- Right side of the header (Navigation links) -->
-        <div class="back-button-container">
-            <button onclick="window.history.back()">Go Back</button>
-            
-        </div>
+<main class="mt-24">
+
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-blue-600 to-blue-400 text-white py-20 px-6 text-center rounded-b-3xl shadow-xl">
+    <h1 class="text-5xl font-bold mb-4">Welcome to TrendyKart</h1>
+    <p class="text-lg max-w-3xl mx-auto">Your one-stop destination for amazing products, unbeatable prices, and a seamless shopping experience. We combine quality, reliability, and innovation to bring you the best online shopping platform.</p>
+  </section>
+
+  <!-- Founder Section -->
+  <section class="founder max-w-6xl mx-auto mt-16 flex flex-col md:flex-row items-center bg-white p-8 rounded-xl shadow-lg">
+    <img src="https://res.cloudinary.com/dx5kyboi4/image/upload/v1749562252/user-original_i0myuo.jpg" alt="Amit Kumar" class="w-36 h-36 rounded-full mb-4 md:mb-0 md:mr-8">
+    <div>
+      <h2 class="text-3xl font-bold text-blue-600 mb-2">Amit Kumar</h2>
+      <p class="text-gray-700 text-lg">Hi! I'm Amit Kumar, the founder of TrendyKart. With a passion for technology and e-commerce, I created this platform to offer customers high-quality products, fast delivery, and exceptional support. TrendyKart is designed to make your shopping experience simple, enjoyable, and trustworthy.</p>
     </div>
+  </section>
 
-    <div class="container">
-        <h1>Welcome to TrendyKart</h1>
-        <p>Your one-stop destination for amazing products at unbeatable prices! We are committed to providing a seamless shopping experience with quality, reliability, and customer satisfaction.</p>
-
-        <h2>Why Choose Us?</h2>
-        <div class="about-me">
-            <img src="https://res.cloudinary.com/dx5kyboi4/image/upload/v1749562252/user-original_i0myuo.jpg" alt="Amit Kumar">
-            <div class="details">
-                <h3>Amit Kumar</h3>
-                <p>Hi! I'm Amit Kumar, the founder and developer behind TrendyKart. With a passion for technology and innovation, I created this platform to bring you the best shopping experience. I am dedicated to making TrendyKart a hub for quality products and customer satisfaction.</p>
-            </div>
-        </div>
-        <div class="why-choose-us">
-            <div class="box">
-                <h3>🌟 Quality Products</h3>
-                <p>We bring you the best products from trusted brands.</p>
-            </div>
-            <div class="box">
-                <h3>🚀 Fast Delivery</h3>
-                <p>Superfast shipping to ensure your orders reach on time.</p>
-            </div>
-            <div class="box">
-                <h3>💰 Best Prices</h3>
-                <p>We offer the most competitive prices in the market.</p>
-            </div>
-            <div class="box">
-                <h3>📞 24/7 Support</h3>
-                <p>Our team is always here to help you with your queries.</p>
-            </div>
-        </div>
+  <!-- Features Section -->
+  <section class="max-w-6xl mx-auto mt-16 px-4">
+    <h2 class="text-4xl font-bold text-center text-gray-800 mb-10">Why Choose Us?</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="card bg-white p-6 rounded-xl shadow-md text-center hover:bg-blue-50">
+        <h3 class="text-xl font-bold text-blue-600 mb-2">🌟 Quality Products</h3>
+        <p class="text-gray-600">Handpicked products from trusted brands for top quality.</p>
+      </div>
+      <div class="card bg-white p-6 rounded-xl shadow-md text-center hover:bg-blue-50">
+        <h3 class="text-xl font-bold text-blue-600 mb-2">🚀 Fast Delivery</h3>
+        <p class="text-gray-600">Get your orders delivered on time, every time.</p>
+      </div>
+      <div class="card bg-white p-6 rounded-xl shadow-md text-center hover:bg-blue-50">
+        <h3 class="text-xl font-bold text-blue-600 mb-2">💰 Best Prices</h3>
+        <p class="text-gray-600">Competitive prices across all products.</p>
+      </div>
+      <div class="card bg-white p-6 rounded-xl shadow-md text-center hover:bg-blue-50">
+        <h3 class="text-xl font-bold text-blue-600 mb-2">📞 24/7 Support</h3>
+        <p class="text-gray-600">Our dedicated support team is always available.</p>
+      </div>
     </div>
+  </section>
 
-    <div class="footer">
-        &copy; 2025 TrendyKart. All rights reserved.
+  <!-- Stats Section -->
+  <section class="bg-blue-50 py-12 mt-16">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+      <div class="p-6 bg-white rounded-xl shadow-lg card">
+        <div class="counter">500+</div>
+        <p class="text-gray-700 mt-2">Products Available</p>
+      </div>
+      <div class="p-6 bg-white rounded-xl shadow-lg card">
+        <div class="counter">10k+</div>
+        <p class="text-gray-700 mt-2">Happy Customers</p>
+      </div>
+      <div class="p-6 bg-white rounded-xl shadow-lg card">
+        <div class="counter">15k+</div>
+        <p class="text-gray-700 mt-2">Orders Delivered</p>
+      </div>
     </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="max-w-6xl mx-auto mt-16 px-4">
+    <h2 class="text-4xl font-bold text-center text-gray-800 mb-10">What Our Customers Say</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg">
+        <p class="text-gray-700">"Amazing products and super fast delivery! TrendyKart never disappoints."</p>
+        <p class="mt-3 font-bold text-blue-600">- Rahul S.</p>
+      </div>
+      <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg">
+        <p class="text-gray-700">"Great prices and excellent support. Highly recommended!"</p>
+        <p class="mt-3 font-bold text-blue-600">- Priya M.</p>
+      </div>
+      <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg">
+        <p class="text-gray-700">"User-friendly platform with reliable delivery. Love it!"</p>
+        <p class="mt-3 font-bold text-blue-600">- Ankit R.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white text-center py-6 mt-12 shadow-inner">
+  &copy; 2025 TrendyKart. All rights reserved.
+</footer>
 
 </body>
 </html>
