@@ -1,200 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Cart</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background-color: #f1f3f6; }
-
-        .header {
-            background: #2874f0;
-            padding: 15px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header h1 { font-size: 22px; }
-
-        .btn-container { display: flex; gap: 10px; }
-
-        .btn {
-            padding: 10px 15px;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            text-decoration: none;
-            text-align: center;
-            display: inline-block;
-        }
-
-        .back-btn { background: #0d45a0; }
-        .back-btn:hover { background: #0b3a8c; }
-
-        .profile-btn { background: #0c2ab1; }
-        .profile-btn:hover { background: #2939cc; }
-
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
-        }
-
-        h2 { text-align: center; color: #2874f0; }
-
-        .cart-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .cart-item img {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-            border-radius: 5px;
-        }
-
-        .cart-item .info { flex: 1; margin-left: 15px; }
-
-        .cart-item h3 { font-size: 16px; margin-bottom: 5px; }
-
-        .cart-item p {
-            font-size: 14px;
-            color: #388e3c;
-            font-weight: bold;
-        }
-
-        .remove-btn { background: #e74514; }
-        .remove-btn:hover { background: #dc281b; }
-
-        .buy-now {
-            background: #166dee;
-            padding: 10px 15px;
-            border: none;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            display: block;
-            width: 100%;
-            text-align: center;
-            margin-top: 20px;
-            transition: 0.3s;
-        }
-
-        .buy-now:hover { background: #073b9b; }
-
-        .total-price {
-            text-align: right;
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-
-        .address-container {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f9f9f9;
-            border-radius: 5px;
-        }
-
-        .address-container select, .add-address-btn {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-        }
-
-        .add-address-btn {
-            background: #009688;
-            color: white;
-            font-weight: bold;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-            border: none;
-            cursor: pointer;
-        }
-
-        .add-address-btn:hover { background: #007b6b; }
-    </style>
-    <script>
-        function buyNow() {
-            fetch("{% url 'buynow' %}", {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": "{{ csrf_token }}",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({})
-            }).then(response => {
-                if (response.ok) {
-                    window.location.href = "{% url 'home' %}";
-                }
-            });
-        }
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Cart - TrendyKart</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* Card & Hover Effects */
+.cart-item {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.cart-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+/* 3D Button Effect */
+.buy-now, .remove-btn {
+    transition: all 0.3s ease;
+}
+.buy-now:hover, .remove-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+/* Input Focus */
+select:focus {
+    outline: none;
+    border-color: #2874f0;
+    box-shadow: 0 0 5px rgba(40,116,240,0.5);
+}
+</style>
 </head>
-<body>
-    <div class="header">
-        <h1>TrendyKart</h1>
-        <div class="btn-container">
-            <a href="{% url 'home' %}" class="btn back-btn">Back</a>
-            <a href="{% url 'profile' %}" class="btn profile-btn">Profile</a>
-        </div>
-    </div>
+<body class="bg-gray-100">
 
-    <div class="container">
-        <h2>Your Cart</h2>
-        {% if cart_items %}
+<!-- Header -->
+<header class="bg-blue-600 text-white py-4 px-6 flex justify-between items-center fixed w-full top-0 z-50 shadow-lg">
+    <h1 class="text-2xl font-bold">TrendyKart</h1>
+    <div class="flex space-x-3">
+        <a href="{% url 'home' %}" class="bg-blue-800 px-4 py-2 rounded-lg font-semibold hover:bg-blue-700">Back</a>
+        <a href="{% url 'profile' %}" class="bg-blue-800 px-4 py-2 rounded-lg font-semibold hover:bg-blue-700">Profile</a>
+    </div>
+</header>
+
+<!-- Cart Container -->
+<main class="max-w-3xl mx-auto mt-28 px-4 pb-10">
+    <h2 class="text-3xl font-bold text-center text-blue-600 mb-6">Your Cart</h2>
+
+    {% if cart_items %}
+        <div class="space-y-4">
             {% for item in cart_items %}
-            <div class="cart-item">
-                <img src="{{ item.product.product_img.url }}" alt="{{ item.product.product_name }}">
-                <div class="info">
-                    <h3>{{ item.product.product_name }}</h3>
-                    <p>₹{{ item.product.price }} x {{ item.quantity }}</p>
+            <div class="cart-item flex flex-col sm:flex-row items-center bg-white p-4 rounded-xl shadow-md">
+                <img src="{{ item.product.product_img.url }}" alt="{{ item.product.product_name }}" class="w-24 h-24 object-contain rounded-lg">
+                <div class="flex-1 sm:ml-6 mt-3 sm:mt-0 text-center sm:text-left">
+                    <h3 class="text-lg font-semibold text-gray-800">{{ item.product.product_name }}</h3>
+                    <p class="text-green-600 font-bold mt-1">₹{{ item.product.price }} x {{ item.quantity }}</p>
                 </div>
-                <a href="{% url 'remove_from_cart' item.id %}" class="btn remove-btn">Remove</a>
+                <a href="{% url 'remove_from_cart' item.id %}" class="remove-btn bg-red-500 text-white px-4 py-2 rounded-lg font-semibold mt-3 sm:mt-0 hover:bg-red-600">Remove</a>
             </div>
             {% endfor %}
+        </div>
 
-            <p class="total-price">Total Price: ₹{{ total_price }}</p>
+        <p class="text-right text-xl font-bold mt-4">Total Price: <span class="text-green-700">₹{{ total_price }}</span></p>
 
-            <div class="address-container">
-                <h3>Select Delivery Address</h3>
-                {% if user_addresses %}
+        <div class="address-container bg-white p-4 mt-6 rounded-xl shadow-md">
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">Select Delivery Address</h3>
+            {% if user_addresses %}
+                <form method="POST">
                     {% csrf_token %}
-                    <select name="selected_address">
+                    <select name="selected_address" class="w-full p-3 rounded-lg border border-gray-300">
                         {% for add in user_addresses %}
-                            <option value="{{ add.id }}">{{ add.city }}</option>
+                            <option value="{{ add.id }}">{{ add.full_name }}, {{ add.city }}, {{ add.state }}</option>
                         {% endfor %}
                     </select>
-                    {% comment %} <button class="buy-now" onclick="buyNow()">Buy Now</button> {% endcomment %}
-                    <a href="{% url 'buynow' %}" class="buy-now">Buy Now</a>
-                    {% comment %} <a href="{% url 'buynow' %}" class="buy-now">Buy Now</a> {% endcomment %}
-                {% else %}
-                    <p>No saved addresses found.</p>
-                    <a href="{% url 'add' %}" class="add-address-btn">Add Address</a>
-                {% endif %}
-            </div>
-        {% else %}
-            <p style="text-align:center; font-size:18px;">Your cart is empty!</p>
-        {% endif %}
-    </div>
+                    <button type="submit" class="buy-now w-full bg-blue-600 text-white mt-4 py-3 rounded-lg font-semibold hover:bg-blue-700">Buy Now</button>
+                </form>
+            {% else %}
+                <p class="text-gray-600 mb-2">No saved addresses found.</p>
+                <a href="{% url 'add' %}" class="add-address-btn w-full bg-teal-500 text-white py-3 rounded-lg font-semibold block text-center hover:bg-teal-600">Add Address</a>
+            {% endif %}
+        </div>
+
+    {% else %}
+        <p class="text-center text-xl text-gray-700 mt-10">Your cart is empty!</p>
+    {% endif %}
+</main>
+
 </body>
 </html>
