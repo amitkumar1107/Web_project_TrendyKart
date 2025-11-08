@@ -1,123 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - TrendyKart</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile - TrendyKart</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* 3D card hover effect */
+.profile-card, .order-card, .address-card, .wishlist-card {
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  transform-style: preserve-3d;
+}
+.profile-card:hover, .order-card:hover, .address-card:hover, .wishlist-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+}
+
+/* Tabs Styling */
+.tab-link {
+  padding-bottom: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.tab-link.active {
+  border-b-2 border-blue-600;
+}
+.add-address-btn {
+  background-color: #2874f0;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.add-address-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tab-link {
+    font-size: 14px;
+  }
+  .add-address-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+}
+</style>
 </head>
 <body class="bg-gray-100">
 
-    <!-- Navbar -->
-    <nav class="bg-white shadow-md py-4 px-6 flex justify-between items-center">
-        <a href="{% url 'home' %}" class="text-xl font-semibold text-blue-600">TrendyKart</a>
-        
-        <div class="flex space-x-4">
-            <a href="{% url 'cart' %}" class="relative">
-                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg">Cart</button>
-            </a>
-            {% if user.is_authenticated %}
-                <form action="{% url 'logout' %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="text-red-600 font-semibold">Log Out</button>
-                </form>
-            {% endif %}
-        </div>
+<!-- Navbar -->
+<nav class="bg-white shadow-md py-4 px-6 flex justify-between items-center">
+  <a href="{% url 'home' %}" class="text-xl font-semibold text-blue-600">TrendyKart</a>
+  <div class="flex space-x-4">
+    <a href="{% url 'cart' %}" class="relative">
+      <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:shadow-lg">Cart</button>
+    </a>
+    {% if user.is_authenticated %}
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="text-red-600 font-semibold hover:underline">Log Out</button>
+    </form>
+    {% endif %}
+  </div>
+</nav>
+
+<!-- Profile Container -->
+<div class="max-w-5xl mx-auto mt-12 p-6 profile-card bg-white shadow-lg rounded-xl">
+  <!-- User Info -->
+  <div class="flex items-center space-x-6 border-b pb-4">
+    {% if user_pic and user_pic.photo %}
+      <img src="https://res.cloudinary.com/dx5kyboi4/image/upload/v1749562612/2_nj1ysc.png" alt="{{ users.username }}" class="w-28 h-28 rounded-full shadow-lg">
+    {% else %}
+      <img src="https://res.cloudinary.com/dx5kyboi4/image/upload/v1749562612/2_nj1ysc.png" alt="Default Profile" class="w-28 h-28 rounded-full shadow-lg">
+    {% endif %}
+    <div>
+      <h2 class="text-3xl font-semibold text-gray-800">{{ users.username }}</h2>
+      <p class="text-gray-600">{{ users.email }}</p>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="mt-6 flex flex-col">
+    <nav class="flex space-x-6 border-b pb-3">
+      <button class="tab-link active text-blue-600 font-semibold" onclick="showTab(event, 'orders')">Orders</button>
+      <button class="tab-link text-gray-600" onclick="showTab(event, 'wishlist')">Wishlist</button>
+      <button class="tab-link text-gray-600" onclick="showTab(event, 'addresses')">Addresses</button>
+      <a href="{% url 'add' %}" class="add-address-btn ml-auto">Add New Address</a>
     </nav>
 
-    <!-- Profile Container -->
-    <div class="max-w-5xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-        <!-- User Info -->
-        <div class="flex items-center space-x-6 border-b pb-4">
-            <!-- Round Profile Picture -->
-            {% if user_pic and user_pic.photo %}
-                <img src="https://res.cloudinary.com/dx5kyboi4/image/upload/v1749562612/2_nj1ysc.png" alt="{{ users.username }}" class="w-24 h-24 rounded-full">
-            {% else %}
-                <img src="https://res.cloudinary.com/dx5kyboi4/image/upload/v1749562612/2_nj1ysc.png" alt="Default Profile" class="w-24 h-24 rounded-full">
-            {% endif %}
-            <div>
-                <h2 class="text-2xl font-semibold">{{ users.username }}</h2>
-                <p class="text-gray-600">{{ users.email }}</p>
-            </div>
-        </div>
-
-        <!-- Tabs -->
-        <div class="mt-6">
-            <nav class="flex space-x-6 border-b pb-3">
-                <button class="tab-link active text-blue-600 font-semibold" onclick="showTab(event, 'orders')">Orders</button>
-                <button class="tab-link text-gray-600" onclick="showTab(event, 'wishlist')">Wishlist</button>
-                <button class="tab-link text-gray-600" onclick="showTab(event, 'addresses')">Addresses</button>
-                <a href="{% url 'add' %}" class="add-address-btn">Add New Address</a>
-            </nav>
-        </div>
-
-        <!-- Orders Section -->
-        <div id="orders" class="tab-content mt-6">
-            <h3 class="text-lg font-semibold mb-3">My Orders</h3>
-            {% if orders %}
-                {% for order in orders %}
-                <div class="border p-3 rounded-md shadow-sm mb-3">
-                    <p class="font-semibold">Order {{ order.id }}</p>
-                    <p class="text-sm text-gray-600">{{ order.status }} - {{ order.order_date }}</p>
-
-                    <!-- Display product info -->
-                    <p>Product Name: {{ order.product.product_name }}</p>
-                    <p>Price: ₹{{ order.product.price }}</p>
-
-                    <a href="{% url 'product' order.product.id %}">
-                        <button class="mt-2 px-4 py-1 bg-blue-600 text-white rounded">View Details</button>
-                    </a>
-                </div>
-                {% endfor %}
-            {% else %}
-                <p class="text-gray-600">No orders found.</p>
-            {% endif %}
-        </div>
-
-        <!-- Wishlist Section -->
-        <div id="wishlist" class="tab-content mt-6 hidden">
-            <h3 class="text-lg font-semibold mb-3">My Wishlist</h3>
-            <p class="text-gray-600">Your wishlist is empty.</p>
-        </div>
-
-        <!-- Addresses Section -->
-        <div id="addresses" class="tab-content mt-6 hidden">
-            <h3 class="text-lg font-semibold mb-3">My Addresses</h3>
-            {% if addresses %}
-                {% for address in addresses %}
-                <div class="border p-3 rounded-md shadow-sm mb-3">
-                    <p><strong>Name:</strong> {{ address.name }}</p>
-                    <p><strong>Locality:</strong> {{ address.locality }}</p>
-                    <p><strong>City:</strong> {{ address.city }}</p>
-                    <p><strong>State:</strong> {{ address.state }}</p>
-                    <p><strong>Zip Code:</strong> {{ address.zipcode }}</p>
-                </div>
-                {% endfor %}
-            {% else %}
-                <p class="text-gray-600">No address found. <a href="{% url 'add' %}" class="text-blue-600">Add an address</a></p>
-            {% endif %}
-        </div>
+    <!-- Orders -->
+    <div id="orders" class="tab-content mt-6">
+      <h3 class="text-xl font-semibold mb-3 text-gray-800">My Orders</h3>
+      {% if orders %}
+        {% for order in orders %}
+          <div class="order-card border p-4 rounded-xl shadow-md mb-4 hover:bg-gray-50">
+            <p class="font-semibold text-gray-700">Order #{{ order.id }}</p>
+            <p class="text-sm text-gray-500">{{ order.status }} - {{ order.order_date }}</p>
+            <p class="mt-2 text-gray-700">Product: {{ order.product.product_name }}</p>
+            <p class="text-gray-800 font-bold">Price: ₹{{ order.product.price }}</p>
+            <a href="{% url 'product' order.product.id %}">
+              <button class="mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:shadow-lg">View Details</button>
+            </a>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-gray-600">No orders found.</p>
+      {% endif %}
     </div>
 
-    <!-- JavaScript for Tabs -->
-    <script>
-        function showTab(event, tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.add('hidden');
-            });
+    <!-- Wishlist -->
+    <div id="wishlist" class="tab-content mt-6 hidden">
+      <h3 class="text-xl font-semibold mb-3 text-gray-800">My Wishlist</h3>
+      {% if wishlist %}
+        {% for item in wishlist %}
+          <div class="wishlist-card border p-4 rounded-xl shadow-md mb-4 hover:bg-gray-50">
+            <p class="font-semibold">{{ item.product_name }}</p>
+            <p class="text-gray-600">Price: ₹{{ item.price }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-gray-600">Your wishlist is empty.</p>
+      {% endif %}
+    </div>
 
-            // Show the selected tab
-            document.getElementById(tabName).classList.remove('hidden');
+    <!-- Addresses -->
+    <div id="addresses" class="tab-content mt-6 hidden">
+      <h3 class="text-xl font-semibold mb-3 text-gray-800">My Addresses</h3>
+      {% if addresses %}
+        {% for address in addresses %}
+          <div class="address-card border p-4 rounded-xl shadow-md mb-4 hover:bg-gray-50">
+            <p><strong>Name:</strong> {{ address.name }}</p>
+            <p><strong>Locality:</strong> {{ address.locality }}</p>
+            <p><strong>City:</strong> {{ address.city }}</p>
+            <p><strong>State:</strong> {{ address.state }}</p>
+            <p><strong>Zip Code:</strong> {{ address.zipcode }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-gray-600">No address found. <a href="{% url 'add' %}" class="text-blue-600 underline">Add an address</a></p>
+      {% endif %}
+    </div>
+  </div>
+</div>
 
-            // Change the active tab styling
-            document.querySelectorAll('.tab-link').forEach(link => {
-                link.classList.remove('text-blue-600', 'font-semibold');
-                link.classList.add('text-gray-600');
-            });
-            event.target.classList.add('text-blue-600', 'font-semibold');
-        }
-    </script>
-
+<script>
+function showTab(event, tabName){
+  document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+  document.getElementById(tabName).classList.remove('hidden');
+  
+  document.querySelectorAll('.tab-link').forEach(link => {
+    link.classList.remove('text-blue-600','font-semibold');
+    link.classList.add('text-gray-600');
+  });
+  event.target.classList.add('text-blue-600','font-semibold');
+}
+</script>
 </body>
 </html>
