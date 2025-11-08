@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models  import User
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login,logout
+from django.contrib.auth import login,logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Product,customer,Cart,Order,OrderItem,profile,orderplaced
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -35,16 +35,26 @@ class productview(View):
         return render(request, 'home.html', {'products': products})
 # Register Page
 class register_page(View):
-    def get (self,request):
-        form=customeregistrationform()
-        return render(request, 'register.html',{'form':form})
-    def post(self,request):
-        form=customeregistrationform(request.POST)
+    def get(self, request):
+        form = customeregistrationform()
+        return render(request, 'register.html', {'form': form})
+
+    def post(self, request):
+        form = customeregistrationform(request.POST)
         if form.is_valid():
-            form.save()
-        return render(request, 'register.html',{'form':form})  
+            user = form.save()
+            
+            # Automatically log in the user after registration
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, f'Welcome {username}! Your account has been created.')
+                return redirect('home')  # Redirect to your homepage or dashboard
 
-
+        # If form is invalid or login fails, show the form again
+        return render(request, 'register.html', {'form': form})
 def about(request):
     return render(request, 'about.html')
 
